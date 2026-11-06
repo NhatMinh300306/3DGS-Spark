@@ -1,0 +1,14 @@
+dist/bench/app.js 140ms
+dist/bench/core.js 68ms
+dist/bench/engine.js 42ms
+dist/bench/network.js 18ms
+dist/bench/renderer.js 18ms
+dist/bench/index.html 50ms
+dist/bench/qa-loader.html 9ms
+dist/bench/style.css 44ms
+benchmark-tests/core.test.mjs 13ms
+benchmark-tests/network.test.mjs 6ms
+benchmark-tests/session.test.mjs 10ms
+benchmark-validation/measure_overhead.mjs 4ms
+dist/index.html 2ms
+package.json 1ms

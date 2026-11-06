@@ -1,0 +1,91 @@
+{
+  "scope": "Node Recorder 10000 synthetic events; not browser/Spark/GPU performance and not a playback speedup",
+  "rows": [
+    {
+      "repeat": 0,
+      "instrumentation": true,
+      "events": 10000,
+      "elapsed_ms": 8.01312,
+      "retained_rows": 10000
+    },
+    {
+      "repeat": 0,
+      "instrumentation": false,
+      "events": 10000,
+      "elapsed_ms": 5.35286,
+      "retained_rows": 0
+    },
+    {
+      "repeat": 1,
+      "instrumentation": true,
+      "events": 10000,
+      "elapsed_ms": 4.157446999999998,
+      "retained_rows": 10000
+    },
+    {
+      "repeat": 1,
+      "instrumentation": false,
+      "events": 10000,
+      "elapsed_ms": 1.6014140000000054,
+      "retained_rows": 0
+    },
+    {
+      "repeat": 2,
+      "instrumentation": true,
+      "events": 10000,
+      "elapsed_ms": 3.3885489999999976,
+      "retained_rows": 10000
+    },
+    {
+      "repeat": 2,
+      "instrumentation": false,
+      "events": 10000,
+      "elapsed_ms": 3.344832999999994,
+      "retained_rows": 0
+    },
+    {
+      "repeat": 3,
+      "instrumentation": true,
+      "events": 10000,
+      "elapsed_ms": 3.3177809999999965,
+      "retained_rows": 10000
+    },
+    {
+      "repeat": 3,
+      "instrumentation": false,
+      "events": 10000,
+      "elapsed_ms": 1.7199229999999943,
+      "retained_rows": 0
+    },
+    {
+      "repeat": 4,
+      "instrumentation": true,
+      "events": 10000,
+      "elapsed_ms": 4.926896999999997,
+      "retained_rows": 10000
+    },
+    {
+      "repeat": 4,
+      "instrumentation": false,
+      "events": 10000,
+      "elapsed_ms": 1.1121069999999946,
+      "retained_rows": 0
+    }
+  ],
+  "on_ms": {
+    "valid_n": 5,
+    "mean": 4.760758799999998,
+    "median": 4.157446999999998,
+    "p95": null,
+    "p99": null,
+    "reason": "p95 needs 20 samples; p99 needs 100"
+  },
+  "off_ms": {
+    "valid_n": 5,
+    "mean": 2.6262273999999977,
+    "median": 1.7199229999999943,
+    "p95": null,
+    "p99": null,
+    "reason": "p95 needs 20 samples; p99 needs 100"
+  }
+}

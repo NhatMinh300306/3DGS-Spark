@@ -1,0 +1,3 @@
+-r requirements-benchmark.txt
+Pillow>=10
+scikit-image>=0.22

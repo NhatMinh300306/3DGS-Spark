@@ -1,0 +1,8 @@
+{
+  "name": "splat-lab-benchmark-v12",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test benchmark-tests/*.test.mjs"
+  }
+}

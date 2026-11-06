@@ -1,0 +1,29 @@
+✔ quantiles need sufficient independent samples (0.92867ms)
+✔ parallel intervals use union wall time (0.216586ms)
+✔ cache classification is conservative (0.236166ms)
+✔ weighted gate cancellation does not leak slots (0.925104ms)
+✔ gate FIFO enforces concurrency and idempotent release (0.218239ms)
+✔ byte cache obeys LRU and lowered limits (0.194944ms)
+✔ playback ordinary jitter keeps phase, stall rebases hold clock only (0.380303ms)
+✔ user pause and seek excluded from buffering (0.317929ms)
+✔ CSV handles quotes, null and formulas (0.578242ms)
+✔ Recorder bounds logs, OFF marks missing metrics (1.535074ms)
+✔ manifest rejects mismatched timelines and unsafe URLs (0.588256ms)
+✔ network records actual body and releases raw reservation after consumer (4.421115ms)
+✔ truncation and missing file fail without leaking budgets (1.323385ms)
+✔ application cache is not a network goodput sample (0.747537ms)
+✔ abort before a request neither fetches nor leaks (1.030293ms)
+✔ GPU query polls asynchronously and discards disjoint (0.289206ms)
+✔ real scheduler Full PLY presents each occurrence and keeps fixed deadlines (11.676793ms)
+✔ Tile scheduler waits for all tiles, never counts tiles as content frames (8.232221ms)
+✔ missing tile prevents partial frame and records error (3.317491ms)
+✔ seek cancels obsolete plans and can present requested frame (1.380972ms)
+✔ stop waits for pending parse and stale results are disposed (6.56076ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 131.690115
