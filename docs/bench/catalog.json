@@ -1,0 +1,15 @@
+{
+  "scenes": [
+    {
+      "id": "fixture",
+      "name": "Orbit SH3 â€” SYNTHETIC",
+      "url": "data/fixture/manifest.json"
+    },
+    {
+      "id": "redandblack",
+      "name": "Redandblack — 8i",
+      "url": "data/redandblack/manifest.json"
+    }
+  ],
+  "default": "redandblack"
+}

@@ -1,0 +1,56 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>v12 CPU loader compatibility check</title>
+<script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three.module.js",
+      "three/addons/postprocessing/Pass.js": "./vendor/Pass.js"
+    }
+  }
+</script>
+<h1>CPU loader check · no GPU rendering</h1>
+<button id="run">Run real Spark PLY loader</button>
+<pre id="result">Not run</pre>
+<script type="module">
+  import { SplatMesh } from './vendor/spark.module.js';
+  const result = document.getElementById('result');
+  document.getElementById('run').onclick = async () => {
+    result.textContent = 'Running';
+    const out = [];
+    try {
+      const base = new URL('./data/fixture/manifest.json', location.href);
+      const m = await fetch(base).then((r) => r.json());
+      const f = m.qualities.find((q) => q.id === 'res8').frames[0];
+      for (const treatment of ['full', 'tiles']) {
+        let splats = 0;
+        const sh = [];
+        for (const a of f[treatment]) {
+          const bytes = await fetch(new URL(a.url, base)).then((r) => r.arrayBuffer());
+          const mesh = new SplatMesh({
+            fileBytes: bytes,
+            fileName: 'fixture.ply',
+            lod: false,
+            nonLod: true,
+          });
+          await mesh.initialized;
+          splats += mesh.numSplats;
+          sh.push(Object.keys(mesh.packedSplats.extra || {}));
+          mesh.dispose();
+        }
+        out.push({ treatment, splats, sh });
+      }
+      result.textContent = JSON.stringify(
+        {
+          status: out.every((x) => x.splats === 24) ? 'pass' : 'fail',
+          scope: 'stock Spark CPU Worker decode only; no GPU rendering or FPS claim',
+          results: out,
+        },
+        null,
+        2,
+      );
+    } catch (e) {
+      result.textContent = String(e.stack || e);
+    }
+  };
+</script>

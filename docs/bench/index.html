@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Splat Lab · Full / Tile Benchmark</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three.module.js",
+          "three/addons/postprocessing/Pass.js": "./vendor/Pass.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main id="viewport" aria-label="Khung nhìn 3D"></main>
+    <button id="toggle" class="floating" aria-label="Đóng mở điều khiển">☰</button>
+    <aside id="panel">
+      <header>
+        <span class="eyebrow">3DGS STREAMING RESEARCH</span>
+        <h1>
+          Splat Lab
+          <small>v12</small>
+        </h1>
+        <p>Full PLY / Tile PLY · cùng renderer</p>
+      </header>
+      <div id="notice" role="status">Đang đọc danh sách scene…</div>
+      <fieldset id="configuration">
+        <label>
+          Scene
+          <select id="scene"></select>
+        </label>
+        <div class="grid">
+          <label>
+            Phương án
+            <select id="treatment">
+              <option value="full">Full PLY</option>
+              <option value="tiles">Tile PLY · complete-only</option>
+            </select>
+          </label>
+          <label>
+            Chất lượng
+            <select id="res">
+              <option>res1</option>
+              <option>res2</option>
+              <option>res4</option>
+              <option selected>res8</option>
+            </select>
+          </label>
+        </div>
+        <div class="grid">
+          <label>
+            Content FPS mục tiêu
+            <input id="fps" type="number" min="1" max="120" value="30" />
+          </label>
+          <label>
+            <span>Phát lặp</span>
+            <input id="loop" type="checkbox" />
+          </label>
+        </div>
+        <details>
+          <summary>Buffer & bộ nhớ</summary>
+          <div class="grid">
+            <label>
+              Prefetch (frame)
+              <input id="horizon" type="number" min="2" max="30" value="8" />
+            </label>
+            <label>
+              Startup (frame)
+              <input id="startupFrames" type="number" min="1" max="30" value="2" />
+            </label>
+            <label>
+              HTTP đồng thời
+              <input id="requests" type="number" min="1" max="16" value="6" />
+            </label>
+            <label>
+              Chuẩn bị đồng thời
+              <input id="decodes" type="number" min="1" max="4" value="2" />
+            </label>
+            <label>
+              Raw + copy (MiB)
+              <input id="rawMiB" type="number" min="4" max="4096" value="256" />
+            </label>
+            <label>
+              Parsed/source (MiB)
+              <input id="parsedMiB" type="number" min="4" max="8192" value="512" />
+            </label>
+            <label>
+              Byte cache (MiB)
+              <input id="cacheMiB" type="number" min="0" max="4096" value="128" />
+            </label>
+            <label>
+              Timeout/run (s)
+              <input id="maxSeconds" type="number" min="10" max="3600" value="120" />
+            </label>
+          </div>
+        </details>
+        <details>
+          <summary>Điều kiện thực nghiệm</summary>
+          <label>
+            Cache
+            <select id="cacheMode">
+              <option value="bypass">Fetch no-store · không dùng app cache</option>
+              <option value="http">HTTP mặc định · không dùng app cache</option>
+              <option value="app-bytes">Giữ byte cache ứng dụng</option>
+              <option value="app-processed">Giữ cả mesh đã chuẩn bị</option>
+            </select>
+          </label>
+          <label>
+            Camera
+            <select id="cameraMode">
+              <option value="fixed">Cố định (baseline)</option>
+              <option value="trace">Trace đã lưu</option>
+              <option value="manual">Orbit tự do (exploratory)</option>
+            </select>
+          </label>
+          <div class="grid">
+            <label>
+              Canvas width
+              <input id="width" type="number" min="320" max="3840" value="1280" />
+            </label>
+            <label>
+              Canvas height
+              <input id="height" type="number" min="240" max="2160" value="720" />
+            </label>
+            <label>
+              Pixel ratio
+              <input id="pixelRatio" type="number" min="0.5" max="2" step="0.5" value="1" />
+            </label>
+            <label>
+              Log limit/run
+              <input id="logLimit" type="number" min="1000" max="100000" value="50000" />
+            </label>
+          </div>
+          <label>
+            Mạng / ghi chú
+            <input id="networkNote" placeholder="Ví dụ: DevTools 20 Mbps, RTT 40 ms; localhost" />
+          </label>
+          <label class="check">
+            <input id="instrumentation" type="checkbox" checked />
+            Đo chi tiết + GPU timer
+          </label>
+          <label class="check">
+            <input id="measureBounds" type="checkbox" />
+            Đo bounds (thêm chi phí)
+          </label>
+          <label class="check">
+            <input id="unverified" type="checkbox" />
+            Cho phép dữ liệu chưa đối chiếu (không dùng so sánh baseline)
+          </label>
+          <div class="buttons">
+            <button id="traceExample" type="button">Tạo trace orbit</button>
+            <label class="file">
+              Nhập trace
+              <input id="traceFile" type="file" accept=".json" />
+            </label>
+            <button id="saveCamera" type="button">Lưu camera</button>
+          </div>
+        </details>
+      </fieldset>
+      <div class="buttons">
+        <button id="start" class="primary">Bắt đầu run</button>
+        <button id="stop" disabled>Dừng</button>
+        <button id="batch">5 cặp A/B</button>
+      </div>
+      <div class="playbar">
+        <button id="pause" disabled>Ⅱ</button>
+        <input id="timeline" aria-label="Frame" type="range" min="0" max="29" value="0" disabled />
+        <output id="frameLabel">1450</output>
+      </div>
+      <div class="buttons">
+        <button id="resetCamera">Reset camera</button>
+        <button id="statsToggle">Thống kê</button>
+        <button id="export" disabled>Xuất ZIP / CSV</button>
+        <button id="clear">Xóa kết quả</button>
+      </div>
+      <details>
+        <summary>Đánh giá ảnh riêng</summary>
+        <p>
+          Capture PNG chạy riêng, không đưa vào benchmark tốc độ. Full PLY là ảnh đối chiếu tương
+          đương, không phải ground truth.
+        </p>
+        <button id="capture">Capture chuỗi hiện tại</button>
+      </details>
+      <section id="history" aria-label="Kết quả run"></section>
+      <footer>
+        Complete-only · hold khi thiếu frame · không ABR/culling
+        <br />
+        GPU memory là ước lượng nguồn; không phải tổng VRAM.
+      </footer>
+    </aside>
+    <section id="statsPanel">
+      <div class="statsHead">
+        <strong>Live diagnostics</strong>
+        <span id="state">Sẵn sàng</span>
+      </div>
+      <div id="metrics" class="metrics"></div>
+      <canvas
+        id="fpsChart"
+        width="660"
+        height="150"
+        aria-label="rAF, render và content FPS"
+      ></canvas>
+      <canvas id="bufferChart" width="660" height="110" aria-label="Số frame đã chuẩn bị"></canvas>
+      <canvas id="networkChart" width="660" height="110" aria-label="Tốc độ nhận body"></canvas>
+      <div class="legend">
+        <i class="green"></i>
+        Content ·
+        <i class="blue"></i>
+        Render submit ·
+        <i class="gray"></i>
+        rAF
+        <br />
+        Các mốc presented là ước lượng ứng dụng sau draw submit.
+      </div>
+    </section>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
